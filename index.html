@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script>
+    function QueryString(name) {
+        var allValues = window.location.search.substring(1);
+        var values = allValues.split("&");
+        for (var i = 0; i < values.length; i++) {
+            var value = values[i].split("=");
+            if (value[0].toUpperCase() == name.toUpperCase()) return value[1];
+        }
+        return "";
+    }
+
+    $(function() {
+        var lang = QueryString("language");
+        $.getJSON("json/" + (lang || "ch") + ".json", function(data) {
+            $(".text").html(data.text);
+            $(".image").attr("src", data.image);
+            $(".link").html(data.nextpage).attr("href", "page2.html" + (lang!=="" ? "?language=" + lang : ""));
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="menu">
+        <a href="?language=ch">中文</a>
+        <a href="?language=en">英文</a>
+        <a href="?language=jp">日文</a>
+    </div>
+    <div class="content">
+        <span class="text"></span>
+        <br>
+        <img class="image"></span>
+        <br>
+        <a class="link"></a>
+    </div>
+</body>
+
+</html>
